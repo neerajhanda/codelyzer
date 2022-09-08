@@ -17,6 +17,10 @@ using Newtonsoft.Json.Linq;
 
 namespace Codelyzer.Analysis.Tests
 {
+    /*IMPORTANT
+    NopCommerce version 3.90 used by these tests requires .NET Framework version 4.5.1 to build.
+    Make sure you have .NET Framework 4.5.1 Developer Pack installed before you run these tests
+    */
     [TestFixture]
     [NonParallelizable]
     public class SyncComparedToAsyncGeneratorTests
@@ -30,12 +34,12 @@ namespace Codelyzer.Analysis.Tests
         [OneTimeSetUp]
         public async Task GlobalSetup()
         {
-            var loggerFactory = LoggerFactory.Create(builder => builder.SetMinimumLevel(LogLevel.Trace).AddConsole());
+            var loggerFactory = LoggerFactory.Create(builder => builder.SetMinimumLevel(LogLevel.Warning).AddConsole());
             _logger = loggerFactory.CreateLogger("Analyzer");
             _downloadDirectory = Path.Combine(Path.GetTempPath(), "NopCommerce");
-            _outputDirectoryPathForSync = Path.Combine(_downloadDirectory, "NopCommerceSyncAnalysisBenchmarks");
+            _outputDirectoryPathForSync = Path.Combine(_downloadDirectory, "NopCommerceSyncOutput");
             _outputDirectoryPathForAsyncGenerator =
-                Path.Combine(_downloadDirectory, "NopCommerceAsyncGeneratorAnalysisBenchmarks");
+                Path.Combine(_downloadDirectory, "NopCommerceAsyncAsyncGeneratorOutput");
             Directory.CreateDirectory(_downloadDirectory);
             await DownloadAndExtractAsync(
                 @"https://github.com/nopSolutions/nopCommerce/archive/refs/tags/release-3.90.zip",
