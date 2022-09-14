@@ -67,11 +67,9 @@ namespace Codelyzer.Analysis.Build
 
                     if (fileTree != null)
                     {
-                        var fileResult = new SourceFileBuildResult
+                        var fileResult = new SourceFileBuildResult(compilation: _compilation, prePortCompilation: _prePortCompilation)
                         {
                             SyntaxTree = fileTree,
-                            PrePortSemanticModel = _prePortCompilation?.GetSemanticModel(fileTree),
-                            SemanticModel = _compilation?.GetSemanticModel(fileTree),
                             SourceFileFullPath = file,
                             SourceFilePath = sourceFilePath
                         };

@@ -61,14 +61,16 @@ namespace Codelyzer.Analysis.Build
         {
             var references = new List<PortableExecutableReference>();
 
-            if (projectFile == null) {
+            if (projectFile == null)
+            {
                 return references;
             }
 
             var fileReferences = ExtractFileReferencesFromProject(projectFile);
             fileReferences?.ForEach(fileRef =>
             {
-                if(!File.Exists(fileRef)) {
+                if (!File.Exists(fileRef))
+                {
                     MissingMetaReferences.Add(fileRef);
                     Logger.LogWarning("Assembly {} referenced does not exist.", fileRef);
                     return;
@@ -95,9 +97,9 @@ namespace Codelyzer.Analysis.Build
             }
 
             var portingNode = projectFileContents.Descendants()
-                .FirstOrDefault(d => 
+                .FirstOrDefault(d =>
                     d.Name.LocalName == "ItemGroup"
-                    && d.FirstAttribute?.Name == "Label" 
+                    && d.FirstAttribute?.Name == "Label"
                     && d.FirstAttribute?.Value == "PortingInfo");
 
             var fileReferences = portingNode?.FirstNode?.ToString()
@@ -121,7 +123,7 @@ namespace Codelyzer.Analysis.Build
 
             return null;
         }
-        
+
         private bool CanSkipErrorsForVisualBasic()
         {
             // Compilation returns false build errors, it seems like we can work around this with
@@ -166,7 +168,7 @@ namespace Codelyzer.Analysis.Build
             {
                 Logger.LogInformation($"Project {Project.Name} compiled with no errors");
             }
-            
+
             // Fallback logic: On fatal errors like msbuild is not installed or framework versions not installed
             // the build fails and does not give syntax trees. 
             if (Compilation.SyntaxTrees == null ||
@@ -174,7 +176,7 @@ namespace Codelyzer.Analysis.Build
             {
                 try
                 {
-                    Logger.LogError(syntaxAnalysisError);                   
+                    Logger.LogError(syntaxAnalysisError);
                     Errors.Add(syntaxAnalysisError);
 
                     FallbackCompilation();
@@ -185,15 +187,15 @@ namespace Codelyzer.Analysis.Build
                     Logger.LogError(e, "Error while running syntax analysis");
                 }
             }
-        }   
+        }
 
         private void FallbackCompilation()
         {
             var vbOptions =
                 Project.CompilationOptions is VisualBasicCompilationOptions
-                    ? (VisualBasicCompilationOptions) Project.CompilationOptions
+                    ? (VisualBasicCompilationOptions)Project.CompilationOptions
                     : null;
-            var options = vbOptions != null ? null : (CSharpCompilationOptions) Project.CompilationOptions;
+            var options = vbOptions != null ? null : (CSharpCompilationOptions)Project.CompilationOptions;
             var meta = this.Project.MetadataReferences;
             var trees = new List<SyntaxTree>();
 
@@ -220,7 +222,7 @@ namespace Codelyzer.Analysis.Build
                     }
                 }
             }
-            else 
+            else
             {
                 var allVbFiles = directory.GetFiles("*.vb", SearchOption.AllDirectories);
                 foreach (var file in allVbFiles)
@@ -243,9 +245,9 @@ namespace Codelyzer.Analysis.Build
 
             if (trees.Count != 0)
             {
-                Compilation = (vbOptions != null)?
-                        VisualBasicCompilation.Create(Project.AssemblyName,trees, meta, vbOptions):
-                        (options!= null)? CSharpCompilation.Create(Project.AssemblyName, trees, meta, options) : null;
+                Compilation = (vbOptions != null) ?
+                        VisualBasicCompilation.Create(Project.AssemblyName, trees, meta, vbOptions) :
+                        (options != null) ? CSharpCompilation.Create(Project.AssemblyName, trees, meta, options) : null;
             }
         }
         private void SetSyntaxCompilation(List<MetadataReference> metadataReferences)
@@ -475,16 +477,16 @@ namespace Codelyzer.Analysis.Build
             GetTargetFrameworks(projectBuildResult, AnalyzerResult);
             projectBuildResult.ProjectGuid = ProjectAnalyzer.ProjectGuid.ToString();
             projectBuildResult.ProjectType = ProjectAnalyzer.ProjectInSolution != null ? ProjectAnalyzer.ProjectInSolution.ProjectType.ToString() : string.Empty;
-            
+
             foreach (var syntaxTree in Compilation.SyntaxTrees)
             {
                 var sourceFilePath = Path.GetRelativePath(projectBuildResult.ProjectRootPath, syntaxTree.FilePath);
                 var preportTree = PrePortCompilation?.SyntaxTrees?.FirstOrDefault(s => s.FilePath == syntaxTree.FilePath);
-                var fileResult = new SourceFileBuildResult
+                var fileResult = new SourceFileBuildResult(compilation: Compilation, prePortCompilation: PrePortCompilation)
                 {
                     SyntaxTree = syntaxTree,
-                    PrePortSemanticModel = preportTree != null ? PrePortCompilation?.GetSemanticModel(preportTree) : null,
-                    SemanticModel = Compilation.GetSemanticModel(syntaxTree),
+                    //PrePortSemanticModel = preportTree != null ? PrePortCompilation?.GetSemanticModel(preportTree) : null,
+                    //SemanticModel = Compilation.GetSemanticModel(syntaxTree),
                     SourceFileFullPath = syntaxTree.FilePath,
                     SyntaxGenerator = SyntaxGenerator.GetGenerator(Project),
                     SourceFilePath = sourceFilePath
@@ -524,11 +526,11 @@ namespace Codelyzer.Analysis.Build
             {
                 var sourceFilePath = Path.GetRelativePath(projectBuildResult.ProjectRootPath, syntaxTree.FilePath);
                 var preportTree = PrePortCompilation?.SyntaxTrees?.FirstOrDefault(s => s.FilePath == syntaxTree.FilePath);
-                var fileResult = new SourceFileBuildResult
+                var fileResult = new SourceFileBuildResult(compilation: Compilation, prePortCompilation: PrePortCompilation)
                 {
                     SyntaxTree = syntaxTree,
-                    PrePortSemanticModel = preportTree != null ? PrePortCompilation?.GetSemanticModel(preportTree) : null,
-                    SemanticModel = Compilation.GetSemanticModel(syntaxTree),
+                    //PrePortSemanticModel = preportTree != null ? PrePortCompilation?.GetSemanticModel(preportTree) : null,
+                    //SemanticModel = Compilation.GetSemanticModel(syntaxTree),
                     SourceFileFullPath = syntaxTree.FilePath,
                     SourceFilePath = sourceFilePath
                 };
@@ -567,7 +569,7 @@ namespace Codelyzer.Analysis.Build
                     // fall back to csharp to match old behavior.
                     updatedTree = CSharpSyntaxTree.ParseText(SourceText.From(fileContents), path: filePath, options: new CSharpParseOptions(languageVersion));
                 }
-                
+
                 var syntaxTree = Compilation.SyntaxTrees.FirstOrDefault(syntaxTree => syntaxTree.FilePath == filePath);
                 var preportSyntaxTree = Compilation.SyntaxTrees.FirstOrDefault(syntaxTree => syntaxTree.FilePath == filePath);
 
@@ -579,11 +581,11 @@ namespace Codelyzer.Analysis.Build
 
                 var sourceFilePath = Path.GetRelativePath(projectBuildResult.ProjectRootPath, filePath);
                 var preportTree = PrePortCompilation?.SyntaxTrees?.FirstOrDefault(s => s.FilePath == syntaxTree.FilePath);
-                var fileResult = new SourceFileBuildResult
+                var fileResult = new SourceFileBuildResult(compilation: Compilation, prePortCompilation: PrePortCompilation)
                 {
                     SyntaxTree = updatedTree,
-                    PrePortSemanticModel = preportTree != null ? PrePortCompilation?.GetSemanticModel(preportTree) : null,
-                    SemanticModel = Compilation.GetSemanticModel(updatedTree),
+                    //PrePortSemanticModel = preportTree != null ? PrePortCompilation?.GetSemanticModel(preportTree) : null,
+                    //SemanticModel = Compilation.GetSemanticModel(updatedTree),
                     SourceFileFullPath = syntaxTree.FilePath,
                     SyntaxGenerator = SyntaxGenerator.GetGenerator(Project),
                     SourceFilePath = sourceFilePath
@@ -632,10 +634,10 @@ namespace Codelyzer.Analysis.Build
                 foreach (var syntaxTree in Compilation.SyntaxTrees)
                 {
                     var sourceFilePath = Path.GetRelativePath(projectBuildResult.ProjectRootPath, syntaxTree.FilePath);
-                    var fileResult = new SourceFileBuildResult
+                    var fileResult = new SourceFileBuildResult(compilation: Compilation, prePortCompilation: PrePortCompilation)
                     {
                         SyntaxTree = syntaxTree,
-                        SemanticModel = Compilation.GetSemanticModel(syntaxTree),
+                        //SemanticModel = Compilation.GetSemanticModel(syntaxTree),
                         SourceFileFullPath = syntaxTree.FilePath,
                         SourceFilePath = sourceFilePath
                     };
@@ -672,9 +674,9 @@ namespace Codelyzer.Analysis.Build
         {
             ExternalReferenceLoader externalReferenceLoader = new ExternalReferenceLoader(
                 Directory.GetParent(_projectPath).FullName,
-                compilation, 
-                project, 
-                AnalyzerResult?.PackageReferences, 
+                compilation,
+                project,
+                AnalyzerResult?.PackageReferences,
                 Logger);
 
             return externalReferenceLoader.Load();

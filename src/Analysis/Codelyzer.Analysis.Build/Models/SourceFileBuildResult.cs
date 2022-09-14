@@ -9,10 +9,16 @@ namespace Codelyzer.Analysis.Build
     public class SourceFileBuildResult
     {
         public SyntaxTree SyntaxTree { get; set; }
-        public SemanticModel PrePortSemanticModel { get; set; }
-        public SemanticModel SemanticModel { get; set; }
+        public Compilation PrePortCompilation { get; }
+        public Compilation Compilation { get; }
         public string SourceFileFullPath { get; set; }
         public string SourceFilePath { get; set; }
         public SyntaxGenerator SyntaxGenerator { get; set; }
+
+        public SourceFileBuildResult(Compilation compilation, Compilation prePortCompilation)
+        {
+            Compilation = compilation;
+            PrePortCompilation = prePortCompilation;
+        }
     }
 }

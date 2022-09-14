@@ -188,7 +188,7 @@ namespace Codelyzer.Analysis
                     Logger.LogDebug("Generating Json file for " + analyzerResult.ProjectResult.ProjectName);
                     var jsonOutput = SerializeUtils.ToJson<ProjectWorkspace>(analyzerResult.ProjectResult);
                     var jsonFilePath = await FileUtils.WriteFileAsync(AnalyzerConfiguration.ExportSettings.OutputPath,
-                        analyzerResult.ProjectResult.ProjectName+".json", jsonOutput);
+                        analyzerResult.ProjectResult.ProjectName + ".json", jsonOutput);
                     analyzerResult.OutputJsonFilePath = jsonFilePath;
                     Logger.LogDebug("Generated Json file  " + jsonFilePath);
                 }
@@ -223,8 +223,12 @@ namespace Codelyzer.Analysis
 
         private RootUstNode AnalyzeFile(SourceFileBuildResult sourceFileBuildResult, string projectRootPath)
         {
-            CodeContext codeContext = new CodeContext(sourceFileBuildResult.PrePortSemanticModel,
-                sourceFileBuildResult.SemanticModel,
+            var prePortSemanticModel =
+                sourceFileBuildResult?.PrePortCompilation?.GetSemanticModel(sourceFileBuildResult.SyntaxTree);
+            var semanticModel =
+                sourceFileBuildResult?.Compilation?.GetSemanticModel(sourceFileBuildResult.SyntaxTree);
+            CodeContext codeContext = new CodeContext(prePortSemanticModel,
+                semanticModel,
                 sourceFileBuildResult.SyntaxTree,
                 projectRootPath,
                 sourceFileBuildResult.SourceFilePath,
@@ -283,7 +287,8 @@ namespace Codelyzer.Analysis
         public override async Task<IDEProjectResult> AnalyzeFile(string projectPath, List<string> filePaths, List<string> frameworkMetaReferences, List<string> coreMetaReferences)
         {
             var fileInfo = new Dictionary<string, string>();
-            filePaths.ForEach(filePath => {
+            filePaths.ForEach(filePath =>
+            {
                 var content = File.ReadAllText(filePath);
                 fileInfo.Add(filePath, content);
             });
@@ -303,7 +308,8 @@ namespace Codelyzer.Analysis
             var sourceFileResults = await fileBuildHandler.Build();
 
             result.SourceFileBuildResults = sourceFileResults;
-            sourceFileResults.ForEach(sourceFileResult => {
+            sourceFileResults.ForEach(sourceFileResult =>
+            {
                 var fileAnalysis = AnalyzeFile(sourceFileResult, projectPath);
                 result.RootNodes.Add(fileAnalysis);
             });
@@ -318,7 +324,8 @@ namespace Codelyzer.Analysis
             var sourceFileResults = await fileBuildHandler.Build();
 
             result.SourceFileBuildResults = sourceFileResults;
-            sourceFileResults.ForEach(sourceFileResult => {
+            sourceFileResults.ForEach(sourceFileResult =>
+            {
                 var fileAnalysis = AnalyzeFile(sourceFileResult, projectPath);
                 result.RootNodes.Add(fileAnalysis);
             });
