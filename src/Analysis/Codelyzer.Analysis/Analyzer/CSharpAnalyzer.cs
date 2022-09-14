@@ -21,17 +21,13 @@ namespace Codelyzer.Analysis.Analyzer
         public override string ProjectFilePath { set; get; }
         public override RootUstNode AnalyzeFile(SourceFileBuildResult sourceFileBuildResult, string projectRootPath)
         {
-            var prePortSemanticModel =
-                sourceFileBuildResult?.PrePortCompilation?.GetSemanticModel(sourceFileBuildResult.SyntaxTree);
-            var semanticModel =
-                sourceFileBuildResult?.Compilation?.GetSemanticModel(sourceFileBuildResult.SyntaxTree);
-            CodeContext codeContext = new CodeContext(prePortSemanticModel,
-                semanticModel,
-                sourceFileBuildResult.SyntaxTree,
-                projectRootPath,
-                sourceFileBuildResult.SourceFilePath,
-                AnalyzerConfiguration,
-                Logger);
+            CodeContext codeContext = new CodeContext(sourceFileBuildResult.PrePortSemanticModel,
+                  sourceFileBuildResult.SemanticModel,
+                  sourceFileBuildResult.SyntaxTree,
+                  projectRootPath,
+                  sourceFileBuildResult.SourceFilePath,
+                  AnalyzerConfiguration,
+                  Logger);
 
             Logger.LogDebug("Analyzing: " + sourceFileBuildResult.SourceFileFullPath);
 
