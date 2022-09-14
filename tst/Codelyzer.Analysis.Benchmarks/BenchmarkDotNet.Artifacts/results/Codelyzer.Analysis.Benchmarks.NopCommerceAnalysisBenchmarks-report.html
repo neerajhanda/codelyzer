@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Codelyzer.Analysis.Benchmarks.NopCommerceAnalysisBenchmarks-20220908-193429</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.13.2, OS=Windows 10 (10.0.20348.887)
+Intel Xeon Platinum 8375C CPU 2.90GHz, 1 CPU, 8 logical and 4 physical cores
+.NET SDK=6.0.400
+  [Host]     : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT AVX2
+  Job-WHKMPK : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT AVX2
+</code></pre>
+<pre><code>LaunchCount=1  RunStrategy=Monitoring  
+</code></pre>
+
+<table>
+<thead><tr><th>            Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Ratio</th><th>RatioSD</th><th> Gen0</th><th>Gen1</th><th>Gen2</th><th>Allocated</th><th>Alloc Ratio</th>
+</tr>
+</thead><tbody><tr><td>AnalyzeSolution</td><td>39.95 s</td><td>0.409 s</td><td>0.270 s</td><td>1.00</td><td>0.00</td><td>171000.0000</td><td>75000.0000</td><td>2000.0000</td><td>4.88 GB</td><td>1.00</td>
+</tr><tr><td>AnalyzeSolutionGenerator</td><td>141.83 s</td><td>3.001 s</td><td>1.985 s</td><td>3.55</td><td>0.05</td><td>202000.0000</td><td>89000.0000</td><td>1000.0000</td><td>5.73 GB</td><td>1.17</td>
+</tr></tbody></table>
+</body>
+</html>

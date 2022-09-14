@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\Analysis\Codelyzer.Analysis\Codelyzer.Analysis.csproj" />
+      <ProjectReference Include="..\Codelyzer.Analysis.Testing.Common\Codelyzer.Analysis.Testing.Common.csproj" />
     </ItemGroup>
 
     <ItemGroup>
