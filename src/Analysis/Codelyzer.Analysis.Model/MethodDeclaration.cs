@@ -1,14 +1,16 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class MethodDeclaration : BaseMethodDeclaration
     {
-        [JsonProperty("return-type", Order = 12)]
+        [JsonPropertyName("return-type")]
+[JsonPropertyOrder(12)]
         public string ReturnType { get; set; }
         
-        [JsonProperty("semantic-return-type", Order = 13)]
+        [JsonPropertyName("semantic-return-type")]
+[JsonPropertyOrder(13)]
         public string SemanticReturnType { get; set; }
 
         public MethodDeclaration()

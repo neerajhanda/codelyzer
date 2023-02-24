@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class ArgumentList : UstNode
     {
         [Obsolete(Constants.ObsoleteParameterMessage, Constants.DoNotThrowErrorOnUse)]
-        [JsonProperty("parameters", Order = 50)]
+        [JsonPropertyName("parameters")]
+[JsonPropertyOrder(50)]
         public List<Parameter> Parameters { get; set; }
         
-        [JsonProperty("arguments", Order = 51)]
+        [JsonPropertyName("arguments")]
+[JsonPropertyOrder(51)]
         public List<Argument> Arguments { get; set; }
             
-        [JsonProperty("semantic-properties", Order = 65)]
+        [JsonPropertyName("semantic-properties")]
+[JsonPropertyOrder(65)]
         public List<string> SemanticProperties { get; set; }
         public ArgumentList()
             : base(IdConstants.ArgumentListName)

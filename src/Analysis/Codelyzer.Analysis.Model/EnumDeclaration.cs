@@ -1,10 +1,11 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class EnumDeclaration : UstNode
     {
-        [JsonProperty("references", Order = 99)]
+        [JsonPropertyName("references")]
+[JsonPropertyOrder(99)]
         public Reference Reference { get; set; }
         public EnumDeclaration()
             : base(IdConstants.EnumIdName)

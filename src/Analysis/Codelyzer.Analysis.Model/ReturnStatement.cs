@@ -1,11 +1,12 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class ReturnStatement : UstNode
     {
-        [JsonProperty("semantic-return-type", Order = 10)]
+        [JsonPropertyName("semantic-return-type")]
+        [JsonPropertyOrder(10)]
         public string SemanticReturnType { get; set; }
 
         public ReturnStatement()

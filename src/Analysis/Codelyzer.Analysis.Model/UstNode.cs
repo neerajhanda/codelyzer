@@ -1,23 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Net.Http.Json;
+using System.Runtime.Serialization.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Xml;
 
 namespace Codelyzer.Analysis.Model
-{   
+{
     public partial class UstNode
     {
         [JsonIgnore]
         public readonly string type;
 
-        [JsonProperty("type", Order = 1)]
+        [JsonPropertyName("type")]
+        [JsonPropertyOrder(1)]
         public string NodeType { get => type; }
-        
-        [JsonProperty("identifier", Order = 2)]
+
+        [JsonPropertyName("identifier")]
+        [JsonPropertyOrder(2)]
         public string Identifier { get; set; }
-        
-        [JsonProperty("location", Order = 3)]
+
+        [JsonPropertyName("location")]
+        [JsonPropertyOrder(3)]
         public TextSpan TextSpan { get; set; }
 
         [JsonIgnore]
@@ -26,7 +31,8 @@ namespace Codelyzer.Analysis.Model
         [JsonIgnore]
         public string FullIdentifier { get; set; }
 
-        [JsonProperty("children", Order = 100)]
+        [JsonPropertyName("children")]
+        [JsonPropertyOrder(100)]
         public UstList<UstNode> Children { get; set; }
 
         public UstNode(string nodeType)
@@ -60,12 +66,12 @@ namespace Codelyzer.Analysis.Model
 
     public partial class NodeType
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
-        
+
         public NodeType(int id, string name)
         {
             Id = id;
@@ -75,16 +81,16 @@ namespace Codelyzer.Analysis.Model
 
     public partial class TextSpan
     {
-        [JsonProperty("start-char-position")]
+        [JsonPropertyName("start-char-position")]
         public long StartCharPosition { get; set; }
 
-        [JsonProperty("end-char-position")]
+        [JsonPropertyName("end-char-position")]
         public long EndCharPosition { get; set; }
 
-        [JsonProperty("start-line-position")]
+        [JsonPropertyName("start-line-position")]
         public long StartLinePosition { get; set; }
 
-        [JsonProperty("end-line-position")]
+        [JsonPropertyName("end-line-position")]
         public long EndLinePosition { get; set; }
 
         public override bool Equals(object obj)
@@ -109,13 +115,13 @@ namespace Codelyzer.Analysis.Model
 
     public partial class Parameter
     {
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
-        
-        [JsonProperty("type")]
+
+        [JsonPropertyName("type")]
         public string Type { get; set; }
-        
-        [JsonProperty("semantic-type")]
+
+        [JsonPropertyName("semantic-type")]
         public string SemanticType { get; set; }
 
         public override bool Equals(object obj)
@@ -141,30 +147,42 @@ namespace Codelyzer.Analysis.Model
             return HashCode.Combine(Name, Type, SemanticType);
         }
     }
-    
+
 
     public partial class UstNode
     {
-        public static UstNode FromJson(string json) => JsonConvert.DeserializeObject<UstNode>(json, Codelyzer.Analysis.Model.Converter.Settings);
+        //public static UstNode FromJson(string json) => JsonConvert.DeserializeObject<UstNode>(json, Codelyzer.Analysis.Model.Converter.Settings);
+        public static UstNode FromJson(string json) => JsonSerializer.Deserialize<UstNode>(json, Codelyzer.Analysis.Model.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this UstNode self) => JsonConvert.SerializeObject(self, Codelyzer.Analysis.Model.Converter.Settings);
+        //public static string ToJson(this UstNode self) => JsonConvert.SerializeObject(self, Codelyzer.Analysis.Model.Converter.Settings);
+        public static string ToJson(this UstNode self) => JsonSerializer.Serialize(self, Codelyzer.Analysis.Model.Converter.Settings);
     }
 
     internal static class Converter
     {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        //public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        //{
+        //    MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+        //    DateParseHandling = DateParseHandling.None,
+        //    NullValueHandling = NullValueHandling.Ignore,
+        //    Formatting = Formatting.Indented,
+        //    Converters =
+        //    {
+        //        new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+        //    },
+        //};
+
+        public static readonly JsonSerializerOptions Settings = new JsonSerializerOptions
         {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-            NullValueHandling = NullValueHandling.Ignore,
-            Formatting = Formatting.Indented,
-            Converters =
-            {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            },
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            //Converters =
+            //{
+            //    //new 
+            //}
         };
     }
 }

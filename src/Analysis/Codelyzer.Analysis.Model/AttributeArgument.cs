@@ -1,14 +1,16 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class AttributeArgument : UstNode
     {
-        [JsonProperty("argument-name", Order = 20)]
+        [JsonPropertyName("argument-name")]
+        [JsonPropertyOrder(20)]
         public string ArgumentName { get; set; }
 
-        [JsonProperty("argument-expression", Order = 25)]
+        [JsonPropertyName("argument-expression")]
+        [JsonPropertyOrder(25)]
         public string ArgumentExpression { get; set; }
 
         public AttributeArgument()

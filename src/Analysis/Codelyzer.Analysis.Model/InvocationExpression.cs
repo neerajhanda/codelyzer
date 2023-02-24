@@ -1,53 +1,67 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class InvocationExpression : ExpressionStatement
-    {        
-        [JsonProperty("method-name", Order = 10)]
+    {
+        [JsonPropertyName("method-name")]
+        [JsonPropertyOrder(10)]
         public string MethodName { get; set; }
-        
-        [JsonProperty("modifiers", Order = 11)]
+
+        [JsonPropertyName("modifiers")]
+        [JsonPropertyOrder(11)]
         public string Modifiers { get; set; }
-        
-        [JsonProperty("semantic-namespace", Order = 12)]
+
+        [JsonPropertyName("semantic-namespace")]
+        [JsonPropertyOrder(12)]
         public string SemanticNamespace { get; set; }
-        
-        [JsonProperty("caller-identifier", Order = 13) ]
+
+        [JsonPropertyName("caller-identifier")]
+        [JsonPropertyOrder(13)]
         public string CallerIdentifier { get; set; }
-        
-        [JsonProperty("semantic-class-type", Order = 14)]
+
+        [JsonPropertyName("semantic-class-type")]
+        [JsonPropertyOrder(14)]
         public string SemanticClassType { get; set; }
 
-        [JsonProperty("semantic-full-class-type", Order = 98)]
+        [JsonPropertyName("semantic-full-class-type")]
+        [JsonPropertyOrder(98)]
         public string SemanticFullClassTypeName { get; set; }
 
-        [JsonProperty("semantic-method-signature", Order = 15)]
+        [JsonPropertyName("semantic-method-signature")]
+        [JsonPropertyOrder(15)]
         public string SemanticMethodSignature { get; set; }
 
         [Obsolete(Constants.ObsoleteParameterMessage, Constants.DoNotThrowErrorOnUse)]
-        [JsonProperty("parameters", Order = 30)]
+        [JsonPropertyName("parameters")]
+        [JsonPropertyOrder(30)]
         public List<Parameter> Parameters { get; set; }
 
-        [JsonProperty("arguments", Order = 31)] 
+        [JsonPropertyName("arguments")]
+        [JsonPropertyOrder(31)]
         public List<Argument> Arguments { get; set; }
-        
-        [JsonProperty("semantic-return-type", Order = 35)]
+
+        [JsonPropertyName("semantic-return-type")]
+        [JsonPropertyOrder(35)]
         public string SemanticReturnType { get; set; }
 
-        [JsonProperty("semantic-original-def", Order = 40)]
+        [JsonPropertyName("semantic-original-def")]
+        [JsonPropertyOrder(40)]
         public string SemanticOriginalDefinition { get; set; }
-        
-        [JsonProperty("semantic-properties", Order = 45)]
+
+        [JsonPropertyName("semantic-properties")]
+        [JsonPropertyOrder(45)]
         public List<string> SemanticProperties { get; set; }
 
-        [JsonProperty("semantic-is-extension", Order = 50)]
+        [JsonPropertyName("semantic-is-extension")]
+        [JsonPropertyOrder(50)]
         public bool IsExtension { get; set; }
 
-        [JsonProperty("references", Order = 99)]
+        [JsonPropertyName("references")]
+        [JsonPropertyOrder(99)]
         public Reference Reference { get; set; }
 
         public InvocationExpression(string typeName)
@@ -60,7 +74,7 @@ namespace Codelyzer.Analysis.Model
             Arguments = new List<Argument>();
             Reference = new Reference();
         }
-        
+
         public InvocationExpression()
             : base(IdConstants.InvocationIdName)
         {

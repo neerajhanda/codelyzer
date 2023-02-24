@@ -1,21 +1,24 @@
 using System;
-using System.IO;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class RootUstNode : UstNode
-    {        
-        [JsonProperty("language", Order = 10)]
+    {
+        [JsonPropertyName("language")]
+        [JsonPropertyOrder(10)]
         public string Language { get; set; }
-        
-        [JsonProperty("file-path", Order = 11)]
+
+        [JsonPropertyName("file-path")]
+        [JsonPropertyOrder(11)]
         public string FilePath { get; set; }
-        
-        [JsonProperty("file-full-path", Order = 12)]
+
+        [JsonPropertyName("file-full-path")]
+        [JsonPropertyOrder(12)]
         public string FileFullPath { get; set; }
 
-        [JsonProperty("references", Order = 99)]
+        [JsonPropertyName("references")]
+        [JsonPropertyOrder(99)]
         public UstList<Reference> References { get; set; }
         public RootUstNode() : base(IdConstants.RootIdName)
         {

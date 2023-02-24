@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
@@ -15,13 +12,17 @@ namespace Codelyzer.Analysis.Model
             SdkReferences = new List<ExternalReference>();
             ProjectReferences = new List<ExternalReference>();
         }
-        [JsonProperty("nuget", Order = 1)]
+        [JsonPropertyName("nuget")]
+[JsonPropertyOrder(1)]
         public List<ExternalReference> NugetReferences { get; set; }
-        [JsonProperty("nuget-dependencies", Order = 2)]
+        [JsonPropertyName("nuget-dependencies")]
+[JsonPropertyOrder(2)]
         public List<ExternalReference> NugetDependencies { get; set; }
-        [JsonProperty("sdk", Order = 3)]
+        [JsonPropertyName("sdk")]
+[JsonPropertyOrder(3)]
         public List<ExternalReference> SdkReferences { get; set; }
-        [JsonProperty("project", Order = 4)]
+        [JsonPropertyName("project")]
+[JsonPropertyOrder(4)]
         public List<ExternalReference> ProjectReferences { get; set; }
     }
 }

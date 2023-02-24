@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class BinaryExpression : ExpressionStatement
     {
-        [JsonProperty("semantic-type")]
+        [JsonPropertyName("semantic-type")]
         public string SemanticType { get; set; }
         public BinaryExpression()
             : base(IdConstants.BinaryExpressionName)

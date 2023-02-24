@@ -1,15 +1,18 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class ExternalReference
     {
-        [JsonProperty("identifier", Order = 1)]
+        [JsonPropertyName("identifier")]
+        [JsonPropertyOrder(1)]
         public string Identity { get; set; }
-        [JsonProperty("version", Order = 2)]
+        [JsonPropertyName("version")]
+        [JsonPropertyOrder(2)]
         public string Version { get; set; }
-        [JsonProperty("assembly-location", Order = 3)]
+        [JsonPropertyName("assembly-location")]
+        [JsonPropertyOrder(3)]
         public string AssemblyLocation { get; set; }
 
         public override bool Equals(object obj)

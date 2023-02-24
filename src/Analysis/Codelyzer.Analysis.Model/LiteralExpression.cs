@@ -1,14 +1,14 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class LiteralExpression : ExpressionStatement
     {        
-        [JsonProperty("literal-type")]
+        [JsonPropertyName("literal-type")]
         public string LiteralType { get; set; }
         
-        [JsonProperty("semantic-type")]
+        [JsonPropertyName("semantic-type")]
         public string SemanticType { get; set; }
         public LiteralExpression()
             : base(IdConstants.LiteralIdName)

@@ -1,18 +1,22 @@
 ﻿using Microsoft.CodeAnalysis;
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class Reference
     {
-        [JsonProperty("namespace", Order = 1)]
+        [JsonPropertyName("namespace")]
+        [JsonPropertyOrder(1)]
         public string Namespace { get; set; }
-        [JsonProperty("assembly", Order = 2)]
-        public string Assembly { get; set; }        
-        [JsonProperty("assembly-location", Order = 3)]
+        [JsonPropertyName("assembly")]
+        [JsonPropertyOrder(2)]
+        public string Assembly { get; set; }
+        [JsonPropertyName("assembly-location")]
+        [JsonPropertyOrder(3)]
         public string AssemblyLocation { get; set; }
-        [JsonProperty("version", Order = 4)]
+        [JsonPropertyName("version")]
+        [JsonPropertyOrder(4)]
         public string Version { get; set; }
 
         [JsonIgnore]

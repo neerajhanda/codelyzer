@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class MethodBlockBase : UstNode
     {
-        [JsonProperty("modifiers", Order = 10)]
+        [JsonPropertyName("modifiers")]
+[JsonPropertyOrder(10)]
         public string Modifiers { get; set; }
 
-        [JsonProperty("parameters", Order = 11)]
+        [JsonPropertyName("parameters")]
+[JsonPropertyOrder(11)]
         public List<Parameter> Parameters { get; set; }
 
-        [JsonProperty("semantic-properties", Order = 14)]
+        [JsonPropertyName("semantic-properties")]
+[JsonPropertyOrder(14)]
         public UstList<string> SemanticProperties { get; set; }
 
-        [JsonProperty("semantic-signature", Order = 30)]
+        [JsonPropertyName("semantic-signature")]
+[JsonPropertyOrder(30)]
         public string SemanticSignature { get; set; }
 
         protected MethodBlockBase(string idName)

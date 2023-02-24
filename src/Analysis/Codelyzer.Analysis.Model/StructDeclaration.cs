@@ -1,20 +1,24 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class StructDeclaration : UstNode
     {
-        [JsonProperty("base-type", Order = 10)]
+        [JsonPropertyName("base-type")]
+[JsonPropertyOrder(10)]
         public string BaseType { get; set; }
 
-        [JsonProperty("base-type-original-def", Order = 11)]
+        [JsonPropertyName("base-type-original-def")]
+[JsonPropertyOrder(11)]
         public string BaseTypeOriginalDefinition { get; set; }
 
-        [JsonProperty("base-list", Order = 12)]
+        [JsonPropertyName("base-list")]
+[JsonPropertyOrder(12)]
         public List<string> BaseList { get; set; }
 
-        [JsonProperty("references", Order = 99)]
+        [JsonPropertyName("references")]
+[JsonPropertyOrder(99)]
         public Reference Reference { get; set; }
         public StructDeclaration()
             : base(IdConstants.StructIdName)

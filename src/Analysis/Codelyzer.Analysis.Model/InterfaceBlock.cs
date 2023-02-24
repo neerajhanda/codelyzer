@@ -1,17 +1,20 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class InterfaceBlock : UstNode
     {
-        [JsonProperty("base-type", Order = 10)]
+        [JsonPropertyName("base-type")]
+        [JsonPropertyOrder(10)]
         public string BaseType { get; set; }
 
-        [JsonProperty("base-type-original-def", Order = 11)]
+        [JsonPropertyName("base-type-original-def")]
+        [JsonPropertyOrder(11)]
         public string BaseTypeOriginalDefinition { get; set; }
 
-        [JsonProperty("references", Order = 99)]
+        [JsonPropertyName("references")]
+        [JsonPropertyOrder(99)]
         public Reference Reference { get; set; }
         public string SemanticAssembly { get; set; }
         public InterfaceBlock()

@@ -1,14 +1,16 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class SimpleLambdaExpression : LambdaExpression
     {
-        [JsonProperty("lambda-type", Order = 2)]
+        [JsonPropertyName("lambda-type")]
+        [JsonPropertyOrder(2)]
         public override string LambdaType => IdConstants.SimpleLambdaExpressionIdName;
 
-        [JsonProperty("parameter", Order = 10)]
+        [JsonPropertyName("parameter")]
+        [JsonPropertyOrder(10)]
         public Parameter Parameter { get; set; }
 
         public SimpleLambdaExpression()

@@ -1,19 +1,21 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class PropertyBlock : UstNode
     {
-        [JsonProperty("modifiers", Order = 20)]
+        [JsonPropertyName("modifiers")]
+[JsonPropertyOrder(20)]
         public string Modifiers { get; set; }
 
-        [JsonProperty("references", Order = 99)]
+        [JsonPropertyName("references")]
+[JsonPropertyOrder(99)]
         public Reference Reference { get; set; }
         public string SemanticAssembly { get; set; }
 
-        [JsonProperty("parameters", Order = 100)]
+        [JsonPropertyName("parameters")]
+[JsonPropertyOrder(100)]
         public List<Parameter> Parameters { get; set; }
 
         public PropertyBlock()

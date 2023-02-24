@@ -1,13 +1,15 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class Annotation : UstNode
     {
-        [JsonProperty("semantic-class-type", Order = 14)]
+        [JsonPropertyName("semantic-class-type")]
+[JsonPropertyOrder(14)]
         public string SemanticClassType { get; set; }
-        [JsonProperty("references", Order = 99)]
+        [JsonPropertyName("references")]
+[JsonPropertyOrder(99)]
         public Reference Reference { get; set; }
         public Annotation()
             : base(IdConstants.AnnotationIdName)

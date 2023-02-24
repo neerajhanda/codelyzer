@@ -1,23 +1,28 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class MemberAccess : UstNode
     {
-        [JsonProperty("name", Order = 10)]
+        [JsonPropertyName("name")]
+        [JsonPropertyOrder(10)]
         public string Name { get; set; }
 
-        [JsonProperty("expression", Order = 11)]
+        [JsonPropertyName("expression")]
+        [JsonPropertyOrder(11)]
         public string Expression { get; set; }
 
-        [JsonProperty("semantic-class-type", Order = 14)]
+        [JsonPropertyName("semantic-class-type")]
+        [JsonPropertyOrder(14)]
         public string SemanticClassType { get; set; }
 
-        [JsonProperty("semantic-full-class-type", Order = 98)]
+        [JsonPropertyName("semantic-full-class-type")]
+        [JsonPropertyOrder(98)]
         public string SemanticFullClassTypeName { get; set; }
 
-        [JsonProperty("references", Order = 99)]
+        [JsonPropertyName("references")]
+        [JsonPropertyOrder(99)]
         public Reference Reference { get; set; }
 
         public MemberAccess()

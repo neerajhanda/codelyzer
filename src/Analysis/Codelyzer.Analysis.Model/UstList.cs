@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace Codelyzer.Analysis.Model
 {
-    [JsonArray]
+    //[JsonArray]
+    //TODO: Validate if serialization is working
+    
     public class UstList<T> : List<T>
     {
         public UstList()

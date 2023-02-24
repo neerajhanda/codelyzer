@@ -1,17 +1,20 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public abstract class LambdaExpression : UstNode
     {
-        [JsonProperty("lambda-type", Order = 1)]
+        [JsonPropertyName("lambda-type")]
+[JsonPropertyOrder(1)]
         public abstract string LambdaType { get; }
 
-        [JsonProperty("return-type", Order = 20)]
+        [JsonPropertyName("return-type")]
+[JsonPropertyOrder(20)]
         public string ReturnType { get; set; }
 
-        [JsonProperty("semantic-properties", Order = 30)]
+        [JsonPropertyName("semantic-properties")]
+[JsonPropertyOrder(30)]
         public UstList<string> SemanticProperties { get; set; }
 
         public LambdaExpression(string idName)

@@ -1,11 +1,12 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Codelyzer.Analysis.Model
 {
     public class Argument : UstNode
     {
-        [JsonProperty("semantic-type", Order = 10)]
+        [JsonPropertyName("semantic-type")]
+[JsonPropertyOrder(10)]
         public string SemanticType { get; set; }
 
         public Argument()
