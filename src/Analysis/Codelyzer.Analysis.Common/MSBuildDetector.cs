@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.VisualStudio.Setup.Configuration;
+﻿using Microsoft.VisualStudio.Setup.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

@@ -1,7 +1,4 @@
 using System;
-using System.IO;
-using System.Net;
-using System.Net.Http;
 using Microsoft.Extensions.Logging;
 
 namespace Codelyzer.Analysis.Common
